@@ -44,10 +44,6 @@ class ProductListViewModel: ObservableObject {
     }
     
     func loadData() async {
-        guard !isLoading, hasMorePges || page == 0 else {
-            return
-        }
-        
         isLoading = true
         errorMessage  = nil
         
@@ -55,6 +51,7 @@ class ProductListViewModel: ObservableObject {
             let response = try await apiService.fetchProducts(page: page,
                                                               limit: limit,
                                                               category: category)
+            products.append(contentsOf: response.data)
             total = response.pagination.total
             page = page + 1
         } catch {
