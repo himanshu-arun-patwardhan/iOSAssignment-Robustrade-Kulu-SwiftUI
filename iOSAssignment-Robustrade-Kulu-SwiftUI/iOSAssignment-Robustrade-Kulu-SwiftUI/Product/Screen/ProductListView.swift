@@ -12,34 +12,46 @@ struct ProductListView: View {
     
     var body: some View {
         NavigationStack {
+            
             Group {
+                
                 List {
                     ForEach(viewModel.products, id: \.id) { productItem in
                         
-                        HStack {
-                            showImage(imageUrl: productItem.image)
-                            VStack(alignment: .leading) {
-                                Text(productItem.title)
-                                Text(productItem.description)
-                                Text(productItem.category)
-                                Text("\(productItem.price)")
-                            }
-                        }
-                        .onAppear {
-                            if productItem.id == viewModel.products.last?.id {
-                                Task {
-                                    await viewModel.loadData()
+                        NavigationLink {
+                            ProductDetailView(product: productItem)
+                        } label: {
+                            showProductInfo(productItem: productItem)
+                                .onAppear {
+                                    if productItem.id == viewModel.products.last?.id {
+                                        Task {
+                                            await viewModel.loadData()
+                                        }
+                                    }
                                 }
-                            }
                         }
                         
                     }
                 }
+                
             }
+            .navigationTitle("Products")
+            .task {
+                await viewModel.loadInitial()
+            }
+            
         }
-        .navigationTitle("Products")
-        .task {
-            await viewModel.loadInitial()
+    }
+    
+    private func showProductInfo(productItem: Product) -> some View {
+        HStack {
+            showImage(imageUrl: productItem.image)
+            VStack(alignment: .leading) {
+                Text(productItem.title)
+                Text(productItem.description)
+                Text(productItem.category)
+                Text(productItem.price, format: .currency(code: "INR"))
+            }
         }
     }
     
