@@ -18,7 +18,7 @@ class ProductListViewModel: ObservableObject {
     private var total = 0
     
     private let limit = 10
-    private let category = ""
+    private let category = "electronics"
     
     var hasMorePges: Bool {
         products.count < total
