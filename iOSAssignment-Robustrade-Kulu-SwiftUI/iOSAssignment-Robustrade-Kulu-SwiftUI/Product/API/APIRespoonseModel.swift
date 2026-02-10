@@ -18,26 +18,11 @@ struct Pagination: Codable {
     let total: Int
 }
 
-struct Product: Codable {
+struct Product: Codable, Identifiable {
     let id: Int
     let title: String
     let price: Double
     let description: String
     let category: String
-    let brand: String
-    let stock: Int
     let image: String
-    let specs: Specs
-    let rating: Rating
-}
-
-struct Specs: Codable {
-    let color: String?
-    let weight: String?
-    let storage: String?
-}
-
-struct Rating: Codable {
-    let rate: Double
-    let count: Int
 }
