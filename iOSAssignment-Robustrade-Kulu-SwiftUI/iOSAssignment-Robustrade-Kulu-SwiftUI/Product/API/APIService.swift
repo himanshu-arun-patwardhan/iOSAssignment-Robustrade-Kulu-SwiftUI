@@ -9,8 +9,8 @@ import Foundation
 
 final class APIService: APIServiceProtocol {
     func fetchProducts(page: Int, limit: Int, category: String) async throws -> APIResponse {
-        let baseUrl = ""
-        let path = ""
+        let baseUrl = "https://fakeapi.net"
+        let path = "/products"
         var components = URLComponents(string: "\(baseUrl)\(path)")
         components?.queryItems = [
             URLQueryItem(name: "page", value: "\(page)"),
